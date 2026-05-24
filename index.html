@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surat Permintaan Maafku Untukmu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- ENVELOPE STAGE --- */
+        .envelope-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100%;
+            transition: opacity 1s ease, transform 1s ease;
+            z-index: 5;
+            position: relative;
+        }
+
+        .envelope-container {
+            perspective: 1000px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .envelope {
+            width: 420px;
+            height: 300px;
+            background: linear-gradient(135deg, #f5e6d3 0%, #e8d4ba 100%);
+            border-radius: 12px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), 0 0 60px rgba(255, 255, 255, 0.1);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            transform-style: preserve-3d;
+        }
+
+        .envelope:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6), 0 0 80px rgba(255, 255, 255, 0.15);
+        }
+
+        .envelope-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #e8d4ba 0%, #d9c4a0 100%);
+            border-radius: 12px;
+            border: 2px solid rgba(139, 69, 19, 0.3);
+        }
+
+        .envelope-flap {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 210px solid transparent;
+            border-right: 210px solid transparent;
+            border-top: 150px solid #d4a574;
+            top: 0;
+            left: 0;
+            transform-origin: top center;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .envelope:hover .envelope-flap {
+            transform: rotateX(180deg);
+        }
+
+        .wax-seal {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle at 30% 30%, #e74c3c, #c0392b);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 15;
+            box-shadow: 0 5px 15px rgba(192, 57, 43, 0.6), inset -2px -2px 5px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+            transition: all 0.3s ease;
+        }
+
+        .envelope:hover .wax-seal {
+            transform: translate(-50%, -50%) scale(1.15);
+            box-shadow: 0 8px 20px rgba(192, 57, 43, 0.8), inset -2px -2px 5px rgba(0, 0, 0, 0.4);
+        }
+
+        .envelope-content {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #fef9f3 0%, #f5e6d3 100%);
+            border-radius: 12px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 5;
+        }
+
+        .envelope-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 32px;
+            color: #8b4513;
+            font-weight: 400;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+            margin-bottom: 10px;
+        }
+
+        .envelope-hint {
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 13px;
+            color: #a68968;
+            opacity: 0.7;
+            animation: float-pulse 2s ease-in-out infinite;
+            font-style: italic;
+        }
+
+        @keyframes float-pulse {
+            0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.7; }
+            50% { transform: translateX(-50%) translateY(-5px); opacity: 1; }
+        }
+
+        /* --- LETTER STAGE --- */
+        .letter-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease;
+            z-index: 2;
+            padding: 20px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .letter-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 200, 124, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .letter-card {
+            background: linear-gradient(135deg, #fef9f3 0%, #ffe8d6 100%);
+            padding: 55px 50px;
+            border-radius: 18px;
+            box-shadow: 
+                0 0 60px rgba(212, 175, 116, 0.3),
+                0 30px 70px rgba(0, 0, 0, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            max-width: 700px;
+            width: 100%;
+            border: 2px solid rgba(212, 175, 116, 0.5);
+            transform: scale(0.8) rotateX(10deg);
+            transition: all 1.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        .letter-card::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .letter-card::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .letter-card::-webkit-scrollbar-thumb {
+            background: rgba(139, 69, 19, 0.2);
+            border-radius: 3px;
+        }
+
+        .letter-card::-webkit-scrollbar-thumb:hover {
+            background: rgba(139, 69, 19, 0.4);
+        }
+
+        .letter-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 116, 0.4), transparent);
+        }
+
+        .letter-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 116, 0.4), transparent);
+        }
+
+        .letter-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 56px;
+            color: #8b4513;
+            margin-bottom: 8px;
+            font-weight: 400;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
+            position: relative;
+            z-index: 1;
+        }
+
+        .letter-subtitle {
+            font-family: 'Playfair Display', serif;
+            font-size: 14px;
+            color: #a68968;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+
+        .decorative-line {
+            width: 70px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 116, 0.4), transparent);
+            margin: 18px auto 22px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .message-text {
+            font-size: 15px;
+            color: #5d4e37;
+            line-height: 2.1;
+            min-height: 180px;
+            text-align: center;
+            font-weight: 400;
+            position: relative;
+            z-index: 1;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 0.3px;
+            font-style: italic;
+        }
+
+        /* --- ACTION BUTTONS --- */
+        .action-box {
+            margin-top: 32px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 60px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .nav-btn {
+            padding: 13px 38px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 28px;
+            border: 2px solid #d4a574;
+            background: linear-gradient(135deg, rgba(212, 175, 116, 0.1) 0%, rgba(212, 175, 116, 0.05) 100%);
+            color: #8b4513;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            outline: none;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(139, 69, 19, 0.1);
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(135deg, #d4a574 0%, #e8c4a0 100%);
+            color: #fff;
+            box-shadow: 0 8px 25px rgba(212, 175, 116, 0.3);
+            transform: translateY(-3px) scale(1.05);
+        }
+
+        .decision-box {
+            display: flex;
+            gap: 28px;
+            width: 100%;
+            justify-content: center;
+            position: relative;
+        }
+
+        .final-btn {
+            padding: 14px 42px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 30px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            border-color: #e74c3c;
+        }
+
+        .btn-yes:hover {
+            box-shadow: 0 15px 35px rgba(231, 76, 60, 0.4);
+            transform: translateY(-3px) scale(1.08);
+        }
+
+        .btn-no {
+            background: linear-gradient(135deg, rgba(150, 100, 120, 0.15) 0%, rgba(150, 100, 120, 0.08) 100%);
+            color: #a27878;
+            border-color: #d4a5a5;
+            position: absolute;
+        }
+
+        .btn-no:hover {
+            background: linear-gradient(135deg, #e6a8a8 0%, #f0c4c4 100%);
+            color: white;
+            box-shadow: 0 15px 35px rgba(230, 168, 168, 0.4);
+        }
+
+        /* --- FLOATING ELEMENTS --- */
+        .floater {
+            position: fixed;
+            font-size: 40px;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 100;
+            animation: float-up 4s ease-out forwards;
+        }
+
+        @keyframes float-up {
+            0% { 
+                transform: translateY(0) translateX(0) scale(1);
+                opacity: 1;
+            }
+            100% { 
+                transform: translateY(-100px) translateX(var(--tx, 0px)) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        .petal {
+            position: absolute;
+            background: linear-gradient(135deg, #ffb3d9 0%, #ffc9e3 100%);
+            border-radius: 50% 0;
+            pointer-events: none;
+            z-index: 8;
+            box-shadow: 0 3px 10px rgba(255, 179, 217, 0.3);
+        }
+
+        /* --- STATES --- */
+        .active-letter .envelope-wrapper {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-30px);
+        }
+
+        .active-letter .letter-wrapper {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .active-letter .letter-card {
+            transform: scale(1) rotateX(0deg);
+            box-shadow: 
+                0 0 80px rgba(212, 175, 116, 0.4),
+                0 30px 80px rgba(0, 0, 0, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .music-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 200;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(212, 175, 116, 0.2);
+            border: 2px solid rgba(212, 175, 116, 0.5);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .music-toggle:hover {
+            background: rgba(212, 175, 116, 0.3);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bgm" loop>
+        <source src="./music/hbd.mpeg" type="audio/mpeg">
+    </audio>
+
+    <div class="music-toggle" id="musicToggle" title="Toggle Musik">🔊</div>
+
+    <!-- ENVELOPE STAGE -->
+    <div class="envelope-wrapper" id="envelopePage">
+        <div class="envelope-container">
+            <div class="envelope" id="mainEnvelope">
+                <div class="envelope-back"></div>
+                <div class="envelope-flap"></div>
+                <div class="wax-seal">💌</div>
+                <div class="envelope-content">
+                    <div class="envelope-text">Untuk Tina...</div>
+                    <div class="envelope-hint">Klik untuk membuka surat aku</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LETTER STAGE -->
+    <div class="letter-wrapper" id="letterPage">
+        <div class="letter-card">
+            <div class="letter-title" id="mainTitle">MY BELOVED</div>
+            <div class="letter-subtitle">💝 Permintaan Maaf dari iqii 💝</div>
+            
+            <div class="decorative-line"></div>
+            <div class="message-text" id="letterText"></div>
+            <div class="decorative-line"></div>
+            
+            <div class="action-box">
+                <button class="nav-btn" id="btnNext">Lanjut Membaca...</button>
+                
+                <div class="decision-box hidden" id="decisionBox">
+                    <button class="final-btn btn-yes" id="btnYes">Maafnya Aku Terima 💕</button>
+                    <button class="final-btn btn-no" id="btnNo">Masih Marah 😔</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const apologyMessages = [
+            "SAYANGGGGG, MINTA MAAF YAAA KALO AKU BUAT KAMU KESEL TERUS TIAP HARI, TIAP SAAT, TIAP MENIT DAN TIAP DETIK ❤️<br><br>",
+            "Maaf yaa beberapa kali aku pulang malem terus, ga inget waktu kalo udah di luar 😔.<br><br>",
+            "TAPI TAPI TAPI, aku keluar rumah jugaa gapernah macem-macem di belakang kamuu, aku selalu mikirin km btw meskipun lagi diluar ehehe❤️.<br><br>",
+            "Sering banget aku cek roblox / login roblox, BUAT NGE CEK KM TAKUTNYA GI MAIN SAMA FRIENDLIST KM DI ROBLOX😏.<br><br>",
+            "Makasi yaaa udah mau terus sama aku yang masih banyak kekurangannya ini, temenin aku terus dari 0 yaa cantikk mwahhh ILYSM 💕"
+        ];
+
+        const mainEnvelope = document.getElementById('mainEnvelope');
+        const bgm = document.getElementById('bgm');
+        const letterText = document.getElementById('letterText');
+        const btnNext = document.getElementById('btnNext');
+        const decisionBox = document.getElementById('decisionBox');
+        const btnNo = document.getElementById('btnNo');
+        const btnYes = document.getElementById('btnYes');
+        const mainTitle = document.getElementById('mainTitle');
+        const musicToggle = document.getElementById('musicToggle');
+
+        let currentMessageIndex = 0;
+        let isMusicPlaying = false;
+
+        // Music toggle
+        musicToggle.addEventListener('click', () => {
+            if (isMusicPlaying) {
+                bgm.pause();
+                musicToggle.textContent = '🔇';
+                isMusicPlaying = false;
+            } else {
+                bgm.play().catch(e => console.log("Audio play blocked."));
+                musicToggle.textContent = '🔊';
+                isMusicPlaying = true;
+            }
+        });
+
+        mainEnvelope.addEventListener('click', triggerTransition);
+        btnNext.addEventListener('click', showNextMessage);
+
+        function triggerTransition() {
+            createFloatingHearts(mainEnvelope.getBoundingClientRect().left + 210, mainEnvelope.getBoundingClientRect().top + 150, 25);
+            
+            bgm.volume = 0.35;
+            bgm.play().catch(e => console.log("Audio play blocked."));
+            isMusicPlaying = true;
+            musicToggle.textContent = '🔊';
+
+            setTimeout(() => {
+                document.body.classList.add('active-letter');
+                setInterval(createFloatingPetal, 120);
+                setTimeout(showNextMessage, 300);
+            }, 700);
+        }
+
+        function showNextMessage() {
+            btnNext.style.opacity = "0";
+            btnNext.style.pointerEvents = "none";
+
+            let currentMessage = apologyMessages[currentMessageIndex];
+            let charIndex = 0;
+            letterText.innerHTML = '';
+
+            function typeMessage() {
+                if (charIndex < currentMessage.length) {
+                    if (currentMessage.substr(charIndex, 4) === "<br>") {
+                        letterText.innerHTML += "<br>";
+                        charIndex += 4;
+                    } else {
+                        letterText.innerHTML += currentMessage.charAt(charIndex);
+                        charIndex++;
+                    }
+                    setTimeout(typeMessage, 40);
+                } else {
+                    currentMessageIndex++;
+                    
+                    if (currentMessageIndex < apologyMessages.length) {
+                        setTimeout(() => {
+                            btnNext.style.opacity = "1";
+                            btnNext.style.pointerEvents = "auto";
+                        }, 400);
+                    } else {
+                        setTimeout(() => {
+                            btnNext.classList.add('hidden');
+                            decisionBox.classList.remove('hidden');
+                            btnNo.style.right = "50%";
+                            btnNo.style.top = "0px";
+                            btnNo.style.marginRight = "95px";
+                        }, 600);
+                    }
+                }
+            }
+            typeMessage();
+        }
+
+        function createFloatingHearts(x, y, count) {
+            const hearts = ['💌', '❤️', '💕', '✨', '💖', '🌹'];
+            for(let i = 0; i < count; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('floater');
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = x + 'px';
+                heart.style.top = y + 'px';
+                heart.style.setProperty('--tx', (Math.random() - 0.5) * 120 + 'px');
+                document.body.appendChild(heart);
+
+                setTimeout(() => heart.remove(), 4000);
+            }
+        }
+
+        function createFloatingPetal() {
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            
+            const size = Math.random() * 22 + 10;
+            petal.style.width = size + 'px';
+            petal.style.height = size + 'px';
+            petal.style.left = Math.random() * window.innerWidth + 'px';
+            petal.style.top = '-30px';
+            petal.style.opacity = Math.random() * 0.5 + 0.3;
+            
+            document.body.appendChild(petal);
+            const duration = Math.random() * 6000 + 7000;
+            const swingDistance = Math.random() * 150 + 50;
+            
+            const animation = petal.animate([
+                { transform: `translateY(0) translateX(0) rotate(0deg)`, opacity: 0.6 },
+                { transform: `translateY(${window.innerHeight + 50}px) translateX(${swingDistance}px) rotate(360deg)`, opacity: 0 }
+            ], {
+                duration: duration,
+                easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+            });
+            
+            animation.onfinish = () => petal.remove();
+        }
+
+        btnNo.addEventListener('mouseover', moveButton);
+        btnNo.addEventListener('click', moveButton);
+
+        function moveButton() {
+            const maxX = window.innerWidth - btnNo.clientWidth - 40;
+            const maxY = window.innerHeight - btnNo.clientHeight - 40;
+            
+            const randomX = Math.max(20, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(20, Math.floor(Math.random() * maxY));
+            
+            btnNo.style.position = "fixed";
+            btnNo.style.left = randomX + 'px';
+            btnNo.style.top = randomY + 'px';
+        }
+
+        btnYes.addEventListener('click', () => {
+            decisionBox.style.opacity = "0";
+            setTimeout(() => decisionBox.remove(), 500);
+
+            mainTitle.innerHTML = "Terima kasih sayang... 💜";
+            letterText.innerHTML = "<br><br>Maafmu aku terima dengan sepenuh hati. Percayakan semua pada aku, dan biarkan aku membuktikan bahwa cintaku untuk kamu adalah hal paling nyata dalam hidup ini. Aku akan selalu ada untuk Tinaaaacuuu tercinta. Selamanya untukmu... 💕✨";
+            
+            let fireworkInterval = setInterval(() => {
+                const rx = Math.random() * window.innerWidth;
+                const ry = Math.random() * (window.innerHeight * 0.6);
+                createFloatingHearts(rx, ry, 40);
+            }, 150);
+
+            setTimeout(() => {
+                clearInterval(fireworkInterval);
+            }, 5500);
+        });
+    </script>
+</body>
+</html>
